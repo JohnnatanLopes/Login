@@ -1,7 +1,8 @@
 package Model.entities;
 
+import Model.exception.AddressException;
+
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.Objects;
 import java.util.regex.Pattern;
 
@@ -17,8 +18,11 @@ public class Usuario {
     public Usuario() {}
 
     public Usuario(Integer id, String nome, String senha, String email, LocalDate dataCadastro, String telefone) {
-
-        validadorSenha(senha);
+        try {
+            validadorSenha(senha);
+        }catch (AddressException e) {
+            System.out.println(e.getMessage());
+        }
 
         this.id = id;
         this.nome = nome;
@@ -94,13 +98,12 @@ public class Usuario {
         }
 
         if(!(testeTamanho && testeMinuscula && testeMaisucula && testeNumerico && testeEspeciais)) {
-            throw new IllegalArgumentException("Erro: A senha inserida está em um formato inválido. Por favor, certifique-se de que a senha atenda aos seguintes requisitos:\n" +
+            throw new AddressException("Erro: A senha inserida está em um formato inválido. Por favor, certifique-se de que a senha atenda aos seguintes requisitos:\n" +
                     "\n" +
                     "    Mínimo de 8 caracteres\n" +
                     "    Pelo menos uma letra maiúscula\n" +
                     "    Pelo menos uma letra minúscula\n" +
                     "    Pelo menos um número\n" +
-                    "    Pelo menos um caractere especial (ex: @, #, $, *)\n" +
                     "\n" +
                     "Tente novamente!");
         }

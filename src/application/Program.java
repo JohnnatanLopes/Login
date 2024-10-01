@@ -57,7 +57,6 @@ public class Program {
             }
 
             if (escolha == '2'){
-                try {
                     System.out.println("Nome completo: ");
                     sc.nextLine();
                     String nome = sc.nextLine();
@@ -71,9 +70,6 @@ public class Program {
 
                     Usuario usuario = new Usuario(null, nome, senha, email, now, telefone);
                     usuarioDao.insert(usuario);
-                }catch (IllegalArgumentException e) {
-                    System.out.println(e.getMessage());
-                }
             }
     }
 }
