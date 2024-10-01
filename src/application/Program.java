@@ -57,19 +57,23 @@ public class Program {
             }
 
             if (escolha == '2'){
-                System.out.println("Nome completo: ");
-                sc.nextLine();
-                String nome = sc.nextLine();
-                System.out.println("Email: ");
-                String email = sc.next();
-                System.out.println("Senha: ");
-                String senha = sc.next();
-                System.out.println("Telefone");
-                String telefone = sc.next();
-                LocalDate now = LocalDate.now();
+                try {
+                    System.out.println("Nome completo: ");
+                    sc.nextLine();
+                    String nome = sc.nextLine();
+                    System.out.println("Email: ");
+                    String email = sc.next();
+                    System.out.println("Senha: ");
+                    String senha = sc.next();
+                    System.out.println("Telefone");
+                    String telefone = sc.next();
+                    LocalDate now = LocalDate.now();
 
-                Usuario usuario = new Usuario(null, nome, senha, email, now, telefone);
-                usuarioDao.insert(usuario);
+                    Usuario usuario = new Usuario(null, nome, senha, email, now, telefone);
+                    usuarioDao.insert(usuario);
+                }catch (IllegalArgumentException e) {
+                    System.out.println(e.getMessage());
+                }
             }
     }
 }

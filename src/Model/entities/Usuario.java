@@ -3,6 +3,7 @@ package Model.entities;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.Objects;
+import java.util.regex.Pattern;
 
 public class Usuario {
 
@@ -16,9 +17,9 @@ public class Usuario {
     public Usuario() {}
 
     public Usuario(Integer id, String nome, String senha, String email, LocalDate dataCadastro, String telefone) {
-        if(senha.length() < 8) {
-            throw new IllegalArgumentException("Senha curta");
-        }
+
+        validadorSenha(senha);
+
         this.id = id;
         this.nome = nome;
         this.senha = senha;
@@ -55,8 +56,6 @@ public class Usuario {
         return senha;
     }
 
-
-
     public LocalDate getDataCadastro() {
         return dataCadastro;
     }
@@ -67,6 +66,44 @@ public class Usuario {
 
     public void setTelefone(String telefone) {
         this.telefone = telefone;
+    }
+
+    private void validadorSenha(String senha) {
+        boolean testeTamanho =  false;
+        if(senha.length() > 8) {
+            testeTamanho = true;
+        }
+        boolean testeMaisucula = false;
+        boolean testeMinuscula = false;
+        boolean testeNumerico = false;
+        boolean testeEspeciais = false;
+        for(int i = 0;i < senha.length();i++) {
+            String teste = String.valueOf(senha.charAt(i));
+            if(Pattern.matches("[A-Z]", teste)) {
+                testeMaisucula = true;
+            }
+            if(Pattern.matches("[a-z]", teste)) {
+                testeMinuscula = true;
+            }
+            if(Pattern.matches("[0-9]", teste)) {
+                testeNumerico = true;
+            }
+            if(Pattern.matches("[$*&@#]", teste)) {
+                testeEspeciais = true;
+            }
+        }
+
+        if(!(testeTamanho && testeMinuscula && testeMaisucula && testeNumerico && testeEspeciais)) {
+            throw new IllegalArgumentException("Erro: A senha inserida está em um formato inválido. Por favor, certifique-se de que a senha atenda aos seguintes requisitos:\n" +
+                    "\n" +
+                    "    Mínimo de 8 caracteres\n" +
+                    "    Pelo menos uma letra maiúscula\n" +
+                    "    Pelo menos uma letra minúscula\n" +
+                    "    Pelo menos um número\n" +
+                    "    Pelo menos um caractere especial (ex: @, #, $, *)\n" +
+                    "\n" +
+                    "Tente novamente!");
+        }
     }
 
     @Override
