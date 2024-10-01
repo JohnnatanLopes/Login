@@ -4,6 +4,7 @@ import Model.exception.AddressException;
 
 import java.time.LocalDate;
 import java.util.Objects;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Usuario {
@@ -20,6 +21,14 @@ public class Usuario {
     public Usuario(Integer id, String nome, String senha, String email, LocalDate dataCadastro, String telefone) {
         try {
             validadorSenha(senha);
+        }catch (AddressException e) {
+            System.out.println(e.getMessage());
+        }
+
+        try {
+            if(!validadorEmail(email)) {
+                throw new AddressException("Endereço de email e invalido");
+            }
         }catch (AddressException e) {
             System.out.println(e.getMessage());
         }
@@ -107,6 +116,20 @@ public class Usuario {
                     "\n" +
                     "Tente novamente!");
         }
+    }
+
+    private static boolean validadorEmail(String email) {
+
+        boolean isEmailValido = false;
+        if(email != null && !email.isEmpty()) {
+            String regex = "^[\\w\\.-]+@([\\w\\-]+\\.)+[A-Z]{2,4}$";
+            Pattern pattern = Pattern.compile(regex,Pattern.CASE_INSENSITIVE);
+            Matcher matcher = pattern.matcher(email);
+            if(matcher.matches()) {
+                isEmailValido = true;
+            }
+        }
+        return isEmailValido;
     }
 
     @Override
