@@ -131,8 +131,8 @@ public class UsuarioDaoJDBC implements UsuarioDao {
         }catch (SQLException e) {
             System.out.println(e.getMessage());
         }finally {
-            DB.closeResultSet(rs);
             DB.closeStatement(st);
+            DB.closeResultSet(rs);
         }
         return  null;
     }
@@ -163,8 +163,8 @@ public class UsuarioDaoJDBC implements UsuarioDao {
         }catch (SQLException e) {
             System.out.println(e.getMessage());
         }finally {
-            DB.closeResultSet(rs);
             DB.closeStatement(st);
+            DB.closeResultSet(rs);
         }
         return null;
     }
@@ -196,8 +196,8 @@ public class UsuarioDaoJDBC implements UsuarioDao {
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }finally {
-            DB.closeResultSet(rs);
             DB.closeStatement(st);
+            DB.closeResultSet(rs);
         }
         return  null;
     }
