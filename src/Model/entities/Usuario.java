@@ -113,6 +113,7 @@ public class Usuario {
                     "    Pelo menos uma letra maiúscula\n" +
                     "    Pelo menos uma letra minúscula\n" +
                     "    Pelo menos um número\n" +
+                    "    Pelo menos um caractere especial (*,@,#)"+
                     "\n" +
                     "Tente novamente!");
         }
