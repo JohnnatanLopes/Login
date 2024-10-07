@@ -3,6 +3,8 @@ package application.UI;
 import Model.dao.DaoFactory;
 import Model.dao.UsuarioDao;
 import Model.entities.Usuario;
+import Model.exception.AddressException;
+import Model.exception.passwordException;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -16,6 +18,8 @@ public class Registrar extends JFrame implements ActionListener {
     private JPasswordField senha;
     private JTextField telefone;
     private JButton registrarSeButton;
+    private JLabel error;
+    private JLabel conf;
 
     UsuarioDao usuarioDao = DaoFactory.createUsuarioDao();
 
@@ -34,19 +38,26 @@ public class Registrar extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == registrarSeButton) {
-            String nomeUser = nomeCompleto.getText();
-            String emailUser = email.getText();
-            char[] senhaUser = senha.getPassword();
-            ;
-            String senhaConv = String.valueOf(senhaUser);
-            String telefoneUser = telefone.getText();
-            LocalDate now = LocalDate.now();
+            try {
+                String nomeUser = nomeCompleto.getText();
+                String emailUser = email.getText();
 
-            Usuario usuario = new Usuario(null, nomeUser, senhaConv, emailUser, now, telefoneUser);
-            usuarioDao.insert(usuario);
+                char[] senhaUser = senha.getPassword();
+                String senhaConv = String.valueOf(senhaUser);
+                String telefoneUser = telefone.getText();
+                LocalDate now = LocalDate.now();
+
+                Usuario usuario = new Usuario(null, nomeUser, senhaConv, emailUser, now, telefoneUser);
+                usuarioDao.insert(usuario);
+                conf.setText("Usuario Cadastrado!");
+            }catch (AddressException ei) {
+                error.setText("Formato da senha e invalido");
+                System.out.println(ei.getMessage());
+            }catch (passwordException ei) {
+                error.setText(ei.getMessage());
+                System.out.println(ei.getMessage());
+            }
         }
     }
-
-
 
 }

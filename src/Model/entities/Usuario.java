@@ -1,6 +1,7 @@
 package Model.entities;
 
 import Model.exception.AddressException;
+import Model.exception.passwordException;
 
 import java.time.LocalDate;
 import java.util.Objects;
@@ -19,18 +20,11 @@ public class Usuario {
     public Usuario() {}
 
     public Usuario(Integer id, String nome, String senha, String email, LocalDate dataCadastro, String telefone) {
-        try {
-            validadorSenha(senha);
-        }catch (AddressException e) {
-            System.out.println(e.getMessage());
-        }
 
-        try {
-            if(!validadorEmail(email)) {
-                throw new AddressException("Endereço de email e invalido");
-            }
-        }catch (AddressException e) {
-            System.out.println(e.getMessage());
+        validadorSenha(senha);
+
+        if(!validadorEmail(email)) {
+            throw new AddressException("Endereço de email e invalido");
         }
 
         this.id = id;
@@ -107,7 +101,7 @@ public class Usuario {
         }
 
         if(!(testeTamanho && testeMinuscula && testeMaisucula && testeNumerico && testeEspeciais)) {
-            throw new AddressException("Erro: A senha inserida está em um formato inválido. Por favor, certifique-se de que a senha atenda aos seguintes requisitos:\n" +
+            throw new passwordException("Erro: A senha inserida está em um formato inválido. Por favor, certifique-se de que a senha atenda aos seguintes requisitos:\n" +
                     "\n" +
                     "    Mínimo de 8 caracteres\n" +
                     "    Pelo menos uma letra maiúscula\n" +
